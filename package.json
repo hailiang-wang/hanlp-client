@@ -1,0 +1,36 @@
+{
+  "name": "hanlp-client",
+  "version": "1.0.0",
+  "description": "NLP Client Package with hanlp-api service",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "ava": "^0.19.1",
+    "debug": "^2.6.6",
+    "node-hanlp-compromise": "^1.0.2",
+    "superagent": "^3.5.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Samurais/hanlp-client.git"
+  },
+  "keywords": [
+    "NLP",
+    "hanlp",
+    "chatbot",
+    "NLU",
+    "NLG"
+  ],
+  "author": "hai liang wang <hailiang.hl.wang@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Samurais/hanlp-client/issues"
+  },
+  "homepage": "https://github.com/Samurais/hanlp-client#readme"
+}
