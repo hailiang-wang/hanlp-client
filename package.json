@@ -1,6 +1,6 @@
 {
   "name": "hanlp-client",
-  "version": "1.0.0",
+  "version": "1.2.2",
   "description": "NLP Client Package with hanlp-api service",
   "main": "index.js",
   "directories": {

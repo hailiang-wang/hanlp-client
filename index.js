@@ -13,7 +13,7 @@ function HanlpClient() {
 }
 
 /**
- * cut Chinese Sentence
+ * cut Chinese Sentence 中文分词
  * @param {*} sentence 
  */
 HanlpClient.prototype.cutSentence = async function (data) {
@@ -27,7 +27,7 @@ HanlpClient.prototype.cutSentence = async function (data) {
 }
 
 /**
- * Get key words
+ * Get key words 提取关键词
  * @param {*} data 
  */
 HanlpClient.prototype.getKeywords = async function (data) {
@@ -41,7 +41,7 @@ HanlpClient.prototype.getKeywords = async function (data) {
 }
 
 /**
- * Get entities
+ * Get entities 人名，地名，组织机构名称
  */
 HanlpClient.prototype.matchEntities = async function (data) {
     let result = await this.cutSentence(data);
@@ -54,7 +54,7 @@ HanlpClient.prototype.matchEntities = async function (data) {
 }
 
 /**
- * Get nouns
+ * Get nouns 名词
  */
 HanlpClient.prototype.matchNoun = async function (data) {
     let result = await this.cutSentence(data);
@@ -67,7 +67,7 @@ HanlpClient.prototype.matchNoun = async function (data) {
 }
 
 /**
- * Get adverbs
+ * Get adverbs 副词
  */
 HanlpClient.prototype.matchAdverbs = async function (data) {
     let result = await this.cutSentence(data);
@@ -80,7 +80,7 @@ HanlpClient.prototype.matchAdverbs = async function (data) {
 }
 
 /**
- * Get verbs
+ * Get verbs 动词
  */
 HanlpClient.prototype.matchVerbs = async function (data) {
     let result = await this.cutSentence(data);
@@ -93,7 +93,7 @@ HanlpClient.prototype.matchVerbs = async function (data) {
 }
 
 /**
- * Get adjectives
+ * Get adjectives 形容词
  */
 HanlpClient.prototype.matchAdjectives = async function (data) {
     let result = await this.cutSentence(data);
@@ -106,7 +106,7 @@ HanlpClient.prototype.matchAdjectives = async function (data) {
 }
 
 /**
- * Get pronouns
+ * Get pronouns 指示代词
  */
 HanlpClient.prototype.matchPronouns = async function (data) {
     let result = await this.cutSentence(data);
@@ -119,7 +119,7 @@ HanlpClient.prototype.matchPronouns = async function (data) {
 }
 
 /**
- * Get summary
+ * Get summary 摘要
  */
 HanlpClient.prototype.getSummary = async function (data) {
     let result = await superagent.post(`${HANLP_SERVER_URL}/summary`)
@@ -128,6 +128,71 @@ HanlpClient.prototype.getSummary = async function (data) {
         .send(_.assign({
             num: 2
         }, data));
+    return result.body
+}
+
+/**
+ * Get summary and keywords 摘要和关键词
+ */
+HanlpClient.prototype.getSummaryAndKeywords = async function (data) {
+    let result = await superagent.post(`${HANLP_SERVER_URL}/query`)
+        .set('Accept', 'application/json')
+        .set('Content-Type', 'application/json')
+        .send(_.assign({
+            num: 2
+        }, data));
+    return result.body
+}
+
+/**
+ * get phrase 短语提取 
+ */
+HanlpClient.prototype.getPhrase = async function (data) {
+    let result = await superagent.post(`${HANLP_SERVER_URL}/phrase`)
+        .set('Accept', 'application/json')
+        .set('Content-Type', 'application/json')
+        .send(_.assign({
+            num: 2
+        }, data));
+    return result.body
+}
+
+/**
+ * 繁体转简体
+ */
+HanlpClient.prototype.convertJT = async function (data) {
+    let result = await superagent.post(`${HANLP_SERVER_URL}/conversion`)
+        .set('Accept', 'application/json')
+        .set('Content-Type', 'application/json')
+        .send(_.assign(data, {
+            type: 'jt'
+        }));
+    return result.body
+}
+
+/**
+ * 简体转繁体
+ */
+HanlpClient.prototype.convertFT = async function (data) {
+    let result = await superagent.post(`${HANLP_SERVER_URL}/conversion`)
+        .set('Accept', 'application/json')
+        .set('Content-Type', 'application/json')
+        .send(_.assign(data, {
+            type: 'ft'
+        }));
+    return result.body
+}
+
+/**
+ * 转拼音
+ */
+HanlpClient.prototype.convertPY = async function (data) {
+    let result = await superagent.post(`${HANLP_SERVER_URL}/conversion`)
+        .set('Accept', 'application/json')
+        .set('Content-Type', 'application/json')
+        .send(_.assign(data, {
+            type: 'py'
+        }));
     return result.body
 }
 
