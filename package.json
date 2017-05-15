@@ -7,12 +7,13 @@
     "test": "test"
   },
   "dependencies": {
-    "ava": "^0.19.1",
     "debug": "^2.6.6",
-    "node-hanlp-compromise": "^1.0.2",
+    "lodash": "^4.17.4",
     "superagent": "^3.5.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "ava": "^0.19.1"
+  },
   "scripts": {
     "test": "ava"
   },

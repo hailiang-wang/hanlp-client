@@ -1,4 +1,6 @@
 # hanlp client
+[自然语言处理API服务](http://nlp.chatbot.io/public/index.html)
+
 ## Welcome
 ```
 npm install hanlp-client
