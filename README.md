@@ -21,49 +21,25 @@ npm install hanlp-client
 var client = require('hanlp-client')
 ```
 
-### 中文分词
-client.cutSentence(data)
+| 介绍 | 方法 | 
+| --- | --- |
+| 中文分词 | client.cutSentence(data) | 
+| 提取关键词 | client.getKeywords(data) | 
+| 实体命名标识：人名，地名，组织机构名称 | client.matchEntities(data) | 
+| 名词 | client.matchNoun(data) | 
+| 副词 | client.matchAdverbs(data) | 
+| 动词 | client.matchVerbs(data) | 
+| 形容词 | client.matchAdjectives(data) | 
+| 指示代词 | client.matchPronouns(data) | 
+| 摘要 | client.getSummary(data) | 
+| 摘要和关键词 | client.getSummaryAndKeywords(data) | 
+| 短语提取 | client.getPhrase(data) | 
+| 繁体转简体 |  client.convertJT(data) | 
+| 简体转繁体 | client.convertFT(data) | 
+| 转拼音 | client.convertPY(data) | 
+| 联合：同时获得keywords/nouns/entities/adverbs/verbs/adjectives/pronouns |client.combine(data) | 
 
-### 提取关键词
-client.getKeywords(data)
-
-### 实体命名标识：人名，地名，组织机构名称
-client.matchEntities(data)
-
-### 名词
-client.matchNoun(data)
-
-### 副词
-client.matchAdverbs(data)
-
-### 动词
-client.matchVerbs(data)
-
-### 形容词
-client.matchAdjectives(data)
-
-### 指示代词
-client.matchPronouns(data)
-
-### 摘要
-client.getSummary(data)
-
-### 摘要和关键词
-client.getSummaryAndKeywords(data)
-
-### 短语提取
-client.getPhrase(data)
-
-### 繁体转简体
-client.convertJT(data)
-
-### 简体转繁体
-client.convertFT(data)
-
-### 转拼音
-client.convertPY(data)
-
-## [API详细介绍](https://github.com/Samurais/hanlp-client/blob/master/test/index.js)
+[API详细介绍及示例](https://github.com/Samurais/hanlp-client/blob/master/test/index.js)
 
 ## Test
 ```
