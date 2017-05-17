@@ -41,15 +41,30 @@ HanlpClient.prototype.getKeywords = async function (data) {
 }
 
 /**
+ * match entities
+ */
+function _matchEntities(result) {
+    if (result.status == REQ_RC_SUCCESS) {
+        return compromise.matchEntities(result.data)
+    } else {
+        throw new Error('Match entities: can not get response successfully.')
+    }
+}
+
+/**
  * Get entities 人名，地名，组织机构名称
  */
 HanlpClient.prototype.matchEntities = async function (data) {
     let result = await this.cutSentence(data);
     debug('Match entities \n', result);
+    return _matchEntities(result)
+}
+
+function _matchNoun(result) {
     if (result.status == REQ_RC_SUCCESS) {
-        return compromise.matchEntities(result.data)
+        return compromise.matchNoun(result.data)
     } else {
-        throw new Error('Match entities: can not get response successfully.')
+        throw new Error('Match nouns: can not get response successfully.')
     }
 }
 
@@ -59,10 +74,15 @@ HanlpClient.prototype.matchEntities = async function (data) {
 HanlpClient.prototype.matchNoun = async function (data) {
     let result = await this.cutSentence(data);
     debug('matchNoun \n', result);
+    return _matchNoun(result);
+}
+
+
+function _matchAdverbs(result) {
     if (result.status == REQ_RC_SUCCESS) {
-        return compromise.matchNoun(result.data)
+        return compromise.matchAdverbs(result.data)
     } else {
-        throw new Error('Match nouns: can not get response successfully.')
+        throw new Error('matchAdverbs: can not get response successfully.')
     }
 }
 
@@ -72,10 +92,14 @@ HanlpClient.prototype.matchNoun = async function (data) {
 HanlpClient.prototype.matchAdverbs = async function (data) {
     let result = await this.cutSentence(data);
     debug('matchAdverbs \n', result);
+    return _matchAdverbs(result)
+}
+
+function _matchVerbs(result) {
     if (result.status == REQ_RC_SUCCESS) {
-        return compromise.matchAdverbs(result.data)
+        return compromise.matchVerbs(result.data)
     } else {
-        throw new Error('matchAdverbs: can not get response successfully.')
+        throw new Error('Match entities: can not get response successfully.')
     }
 }
 
@@ -85,10 +109,14 @@ HanlpClient.prototype.matchAdverbs = async function (data) {
 HanlpClient.prototype.matchVerbs = async function (data) {
     let result = await this.cutSentence(data);
     debug('Match entities \n', result);
+    return _matchVerbs(result)
+}
+
+function _matchAdjectives(result) {
     if (result.status == REQ_RC_SUCCESS) {
-        return compromise.matchVerbs(result.data)
+        return compromise.matchAdjectives(result.data)
     } else {
-        throw new Error('Match entities: can not get response successfully.')
+        throw new Error('Match adjectives: can not get response successfully.')
     }
 }
 
@@ -98,12 +126,17 @@ HanlpClient.prototype.matchVerbs = async function (data) {
 HanlpClient.prototype.matchAdjectives = async function (data) {
     let result = await this.cutSentence(data);
     debug('Match entities \n', result);
+    return _matchAdjectives(result)
+}
+
+function _matchPronouns(result) {
     if (result.status == REQ_RC_SUCCESS) {
-        return compromise.matchAdjectives(result.data)
+        return compromise.matchPronouns(result.data)
     } else {
-        throw new Error('Match adjectives: can not get response successfully.')
+        throw new Error('matchPronouns: can not get response successfully.')
     }
 }
+
 
 /**
  * Get pronouns 指示代词
@@ -111,11 +144,7 @@ HanlpClient.prototype.matchAdjectives = async function (data) {
 HanlpClient.prototype.matchPronouns = async function (data) {
     let result = await this.cutSentence(data);
     debug('matchPronouns \n', result);
-    if (result.status == REQ_RC_SUCCESS) {
-        return compromise.matchPronouns(result.data)
-    } else {
-        throw new Error('matchPronouns: can not get response successfully.')
-    }
+    return _matchPronouns(result)
 }
 
 /**
@@ -194,6 +223,33 @@ HanlpClient.prototype.convertPY = async function (data) {
             type: 'py'
         }));
     return result.body
+}
+
+/**
+ * Combine NLP 
+ */
+HanlpClient.prototype.combine = async function (data) {
+    try {
+        let cut = await this.cutSentence(data);
+        let keywords = await this.getKeywords(data);
+        return {
+            status: 'success',
+            data: {
+                keywords: keywords.data,
+                nouns: _matchNoun(cut),
+                entities: _matchEntities(cut),
+                adverbs: _matchAdverbs(cut),
+                verbs: _matchVerbs(cut),
+                adjectives: _matchAdjectives(cut),
+                pronouns: _matchPronouns(cut)
+            }
+        }
+    } catch (e) {
+        return {
+            status: 'error',
+            error: e
+        }
+    }
 }
 
 exports = module.exports = new HanlpClient();

@@ -159,3 +159,13 @@ test('Hanlp Client#convertPY', async (t) => {
     t.truthy(result.data, 'result data length should be more then zero.')
     t.pass()
 })
+
+test('Hanlp Client#combine', async (t) => {
+    let result = await client.combine({
+        "content": "我们的机器人由诗人和音乐家驱动。"
+    })
+    debug('combine#result \n', JSON.stringify(result))
+    t.is(result.status, 'success', 'result should be success.')
+    t.truthy(result.data, 'result data length should be more then zero.')
+    t.pass()
+})
