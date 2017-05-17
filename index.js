@@ -60,6 +60,23 @@ HanlpClient.prototype.matchEntities = async function (data) {
     return _matchEntities(result)
 }
 
+/**
+ * 匹配人名
+ */
+function _matchNames(result) {
+    if (result.status == REQ_RC_SUCCESS) {
+        return _.uniq(compromise.matchNames(result.data))
+    } else {
+        throw new Error('Match entities: can not get response successfully.')
+    }
+}
+
+HanlpClient.prototype.matchNames = async function (data) {
+    let result = await this.cutSentence(data);
+    debug('Match names \n', result)
+    return _matchNames(result);
+}
+
 function _matchNoun(result) {
     if (result.status == REQ_RC_SUCCESS) {
         return compromise.matchNoun(result.data)
@@ -74,7 +91,7 @@ function _matchNoun(result) {
 HanlpClient.prototype.matchNoun = async function (data) {
     let result = await this.cutSentence(data);
     debug('matchNoun \n', result);
-    return _matchNoun(result);
+    return _matchNoun(result)
 }
 
 
@@ -241,7 +258,8 @@ HanlpClient.prototype.combine = async function (data) {
                 adverbs: _matchAdverbs(cut),
                 verbs: _matchVerbs(cut),
                 adjectives: _matchAdjectives(cut),
-                pronouns: _matchPronouns(cut)
+                pronouns: _matchPronouns(cut),
+                names: _matchNames(cut)
             }
         }
     } catch (e) {

@@ -31,13 +31,14 @@ var client = require('hanlp-client')
 | 动词 | client.matchVerbs(data) | 
 | 形容词 | client.matchAdjectives(data) | 
 | 指示代词 | client.matchPronouns(data) | 
+| 人名 | client.matchNames(data) | 
 | 摘要 | client.getSummary(data) | 
 | 摘要和关键词 | client.getSummaryAndKeywords(data) | 
 | 短语提取 | client.getPhrase(data) | 
 | 繁体转简体 |  client.convertJT(data) | 
 | 简体转繁体 | client.convertFT(data) | 
 | 转拼音 | client.convertPY(data) | 
-| 联合：同时获得keywords/nouns/entities/adverbs/verbs/adjectives/pronouns |client.combine(data) | 
+| 联合：同时获得keywords/nouns/entities/adverbs/verbs/adjectives/pronouns/names |client.combine(data) | 
 
 [API详细介绍及示例](https://github.com/Samurais/hanlp-client/blob/master/test/index.js)
 
