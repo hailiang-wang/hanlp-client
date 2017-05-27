@@ -3,8 +3,14 @@
  * http://nlp.chatbot.io/public/index.html
  */
 const test = require('ava');
-const client = require('../index')
+const HanlpClient = require('../index');
 const debug = require('debug')('hanlp-client:debug')
+var path = require('path')
+require('dotenv').config({ path: path.join(__dirname, 'fixtures', '.env') })
+let ADMIN_APP_ID = process.env['ADMIN_APP_ID'];
+let ADMIN_APP_SEC = process.env['ADMIN_APP_SEC'];
+
+const client = new HanlpClient(ADMIN_APP_ID, ADMIN_APP_SEC);
 
 test('Hanlp Client#cutSentence', async (t) => {
     let result = await client.cutSentence({
@@ -170,7 +176,7 @@ test('Hanlp Client#combine', async (t) => {
     t.pass()
 })
 
-test.only('Hanlp Client#matchNames', async (t) => {
+test('Hanlp Client#matchNames', async (t) => {
     let result = await client.matchNames({
         "content": `柯洁九段昨日在厦门大学速胜李钦诚九段，助国旅联合厦门队以2比2主将胜苏泊尔杭州队。赛后柯洁接受了采访，表示下周面对AlphaGo时要拼搏，奋战到死。5月23、25、27日，乌镇围棋峰会上，世界排名第一的柯洁将与人工智能AlphaGo进行三场对决。`
     })

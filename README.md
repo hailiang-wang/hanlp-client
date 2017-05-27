@@ -4,22 +4,26 @@
 ## Welcome
 ![](https://camo.githubusercontent.com/ae91a5698ad80d3fe8e0eb5a4c6ee7170e088a7d/687474703a2f2f37786b6571692e636f6d312e7a302e676c622e636c6f7564646e2e636f6d2f61692f53637265656e25323053686f74253230323031372d30342d30342532306174253230382e32302e3437253230504d2e706e67)
 
+```
+npm install hanlp-client
+```
+
 ## Configure
-By default, **hanlp-client** connected with [nlp.chabot.io](http://nlp.chatbot.io/public/index.html).
-
-Just set **HANLP\_SERVER\_URL** as an environment variable for customized URL.
-
-e.g.
-
-```
-export HANLP_SERVER_URL=http://localhost:3002
-```
+**hanlp-client** connected with [nlp.arrking.com](http://nlp.arrking.com/public/index.html).
 
 ## Usage
 ```
-npm install hanlp-client
-var client = require('hanlp-client')
+var HanlpClient = require('hanlp-client')
+var client = new HanlpClient(CLIENT_ID, CLIENT_SECRET);
 ```
+
+Get **CLIENT\_ID, CLIENT_SECRET** from [Austack](http://dashboard.arrking.com).
+
+> Login > Application > New Application > Settings
+
+![](https://raw.githubusercontent.com/rockq-org/austack/master/images/get_austack_token.png)
+
+## APIs
 
 | 介绍 | 方法 | 
 | --- | --- |
@@ -47,7 +51,9 @@ var client = require('hanlp-client')
 ava
 ```
 
-## [About me](http://blog.chatbot.io/webcv/)
+## Compatibility
+This module uses async/await. 
+So, use it with Node.js 7.1.6+.
 
 ## LICENSE
 MIT

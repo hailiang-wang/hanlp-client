@@ -2,14 +2,19 @@
  * Hanlp Client
  */
 const debug = require('debug')('hanlp-client');
-const superagent = require('superagent');
-const HANLP_SERVER_URL = process.env['HANLP_SERVER_URL'] || 'http://nlp.chatbot.io';
+const request = require('superagent');
+const HANLP_SERVER_URL = process.env['HANLP_SERVER_URL'] || 'http://nlp.arrking.com';
+debug('HANLP_SERVER_URL=%s', HANLP_SERVER_URL)
 const compromise = require('./lib/compromise');
 const _ = require('lodash');
 const REQ_RC_SUCCESS = 'success';
 
-function HanlpClient() {
 
+function HanlpClient(clientId, clientSecret) {
+    this.clientId = clientId;
+    this.clientSecret = clientSecret;
+    if (this.clientId && this.clientSecret)
+        this.austack = require('austack-node')(this.clientId, this.clientSecret);
 }
 
 /**
@@ -17,9 +22,10 @@ function HanlpClient() {
  * @param {*} sentence 
  */
 HanlpClient.prototype.cutSentence = async function (data) {
-    let result = await superagent.post(`${HANLP_SERVER_URL}/tokenizer`)
+    let result = await request.post(`${HANLP_SERVER_URL}/tokenizer`)
         .set('Accept', 'application/json')
-        .set('Content-Type', 'application/json')
+        .set('Content-Type', 'application/json; charset=utf-8')
+        .set('Authorization', this.austack ? 'Bearer ' + (await this.austack.getToken()) : null)
         .send(_.assign({
             type: 'nlp'
         }, data));
@@ -31,9 +37,10 @@ HanlpClient.prototype.cutSentence = async function (data) {
  * @param {*} data 
  */
 HanlpClient.prototype.getKeywords = async function (data) {
-    let result = await superagent.post(`${HANLP_SERVER_URL}/keyword`)
+    let result = await request.post(`${HANLP_SERVER_URL}/keyword`)
         .set('Accept', 'application/json')
-        .set('Content-Type', 'application/json')
+        .set('Content-Type', 'application/json; charset=utf-8')
+        .set('Authorization', this.austack ? 'Bearer ' + (await this.austack.getToken()) : null)
         .send(_.assign({
             num: 2
         }, data));
@@ -168,9 +175,10 @@ HanlpClient.prototype.matchPronouns = async function (data) {
  * Get summary 摘要
  */
 HanlpClient.prototype.getSummary = async function (data) {
-    let result = await superagent.post(`${HANLP_SERVER_URL}/summary`)
+    let result = await request.post(`${HANLP_SERVER_URL}/summary`)
         .set('Accept', 'application/json')
-        .set('Content-Type', 'application/json')
+        .set('Content-Type', 'application/json; charset=utf-8')
+        .set('Authorization', this.austack ? 'Bearer ' + (await this.austack.getToken()) : null)
         .send(_.assign({
             num: 2
         }, data));
@@ -181,9 +189,10 @@ HanlpClient.prototype.getSummary = async function (data) {
  * Get summary and keywords 摘要和关键词
  */
 HanlpClient.prototype.getSummaryAndKeywords = async function (data) {
-    let result = await superagent.post(`${HANLP_SERVER_URL}/query`)
+    let result = await request.post(`${HANLP_SERVER_URL}/query`)
         .set('Accept', 'application/json')
-        .set('Content-Type', 'application/json')
+        .set('Content-Type', 'application/json; charset=utf-8')
+        .set('Authorization', this.austack ? 'Bearer ' + (await this.austack.getToken()) : null)
         .send(_.assign({
             num: 2
         }, data));
@@ -194,9 +203,10 @@ HanlpClient.prototype.getSummaryAndKeywords = async function (data) {
  * get phrase 短语提取 
  */
 HanlpClient.prototype.getPhrase = async function (data) {
-    let result = await superagent.post(`${HANLP_SERVER_URL}/phrase`)
+    let result = await request.post(`${HANLP_SERVER_URL}/phrase`)
         .set('Accept', 'application/json')
-        .set('Content-Type', 'application/json')
+        .set('Content-Type', 'application/json; charset=utf-8')
+        .set('Authorization', this.austack ? 'Bearer ' + (await this.austack.getToken()) : null)
         .send(_.assign({
             num: 2
         }, data));
@@ -207,9 +217,10 @@ HanlpClient.prototype.getPhrase = async function (data) {
  * 繁体转简体
  */
 HanlpClient.prototype.convertJT = async function (data) {
-    let result = await superagent.post(`${HANLP_SERVER_URL}/conversion`)
+    let result = await request.post(`${HANLP_SERVER_URL}/conversion`)
         .set('Accept', 'application/json')
-        .set('Content-Type', 'application/json')
+        .set('Content-Type', 'application/json; charset=utf-8')
+        .set('Authorization', this.austack ? 'Bearer ' + (await this.austack.getToken()) : null)
         .send(_.assign(data, {
             type: 'jt'
         }));
@@ -220,9 +231,10 @@ HanlpClient.prototype.convertJT = async function (data) {
  * 简体转繁体
  */
 HanlpClient.prototype.convertFT = async function (data) {
-    let result = await superagent.post(`${HANLP_SERVER_URL}/conversion`)
+    let result = await request.post(`${HANLP_SERVER_URL}/conversion`)
         .set('Accept', 'application/json')
-        .set('Content-Type', 'application/json')
+        .set('Content-Type', 'application/json; charset=utf-8')
+        .set('Authorization', this.austack ? 'Bearer ' + (await this.austack.getToken()) : null)
         .send(_.assign(data, {
             type: 'ft'
         }));
@@ -233,9 +245,10 @@ HanlpClient.prototype.convertFT = async function (data) {
  * 转拼音
  */
 HanlpClient.prototype.convertPY = async function (data) {
-    let result = await superagent.post(`${HANLP_SERVER_URL}/conversion`)
+    let result = await request.post(`${HANLP_SERVER_URL}/conversion`)
         .set('Accept', 'application/json')
-        .set('Content-Type', 'application/json')
+        .set('Content-Type', 'application/json; charset=utf-8')
+        .set('Authorization', this.austack ? 'Bearer ' + (await this.austack.getToken()) : null)
         .send(_.assign(data, {
             type: 'py'
         }));
@@ -270,4 +283,4 @@ HanlpClient.prototype.combine = async function (data) {
     }
 }
 
-exports = module.exports = new HanlpClient();
+exports = module.exports = HanlpClient;
